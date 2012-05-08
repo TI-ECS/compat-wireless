@@ -1,0 +1,32 @@
+From 22521bdf2031256238497b496be18bec3744b867 Mon Sep 17 00:00:00 2001
+From: Eyal Reizer <eyalr@ti.com>
+Date: Wed, 14 Mar 2012 10:16:49 +0200
+Subject: [PATCH] wl12xx: Change invalid hlid message from error to debug
+
+This message is seen when the wlan driver get frames from the network
+stack while it is not ready to receive them (like just after connection).
+There is nothing bad happening here so we change the error message
+to a debug message so it doesn't normally show up
+
+Upstream-Status: pending
+
+Signed-off-by: Eyal Reizer <eyalr@ti.com>
+---
+ drivers/net/wireless/wl12xx/tx.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/drivers/net/wireless/wl12xx/tx.c b/drivers/net/wireless/wl12xx/tx.c
+index 7d940cc..556a8df 100644
+--- a/drivers/net/wireless/wl12xx/tx.c
++++ b/drivers/net/wireless/wl12xx/tx.c
+@@ -498,7 +498,7 @@ static int wl1271_prepare_tx_frame(struct wl1271 *wl, struct sk_buff *skb,
+			wl1271_debug(DEBUG_TX, "dropping skb while IBSS not "
+				     " joined");
+		} else {
+-			wl1271_error("invalid hlid. dropping skb 0x%p", skb);
++			wl1271_debug(DEBUG_TX,"invalid hlid. dropping skb 0x%p", skb);
+		}
+
+		return -EINVAL;
+--
+1.7.0.4
